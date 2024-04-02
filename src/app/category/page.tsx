@@ -3,7 +3,7 @@ import HomeSidebar from "@/components/modules/HomePage/HomeSidebar";
 import { Grid } from "@mui/material";
 import { NextPage } from "next";
 
-const Home: NextPage = async () => {
+const category: NextPage = async () => {
   async function getData() {
     const postsRes = await fetch("http://localhost:3400", {
       cache: "no-cache",
@@ -19,7 +19,6 @@ const Home: NextPage = async () => {
     return { postsData, categoris };
   }
   const data = await getData();
-  // console.log(data.posts[0]);
   return (
     <Grid container display="flex" spacing={2} marginTop={3}>
       <HomeSidebar categories={data.categoris} />
@@ -32,4 +31,4 @@ const Home: NextPage = async () => {
   );
 };
 
-export default Home;
+export default category;
