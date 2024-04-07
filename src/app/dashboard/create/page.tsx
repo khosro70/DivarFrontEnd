@@ -1,72 +1,20 @@
 "use client";
-
 import React from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import {
-  Button,
-  Grid,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextareaAutosize,
-  styled,
-} from "@mui/material";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Button, Grid, Typography } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/reactQuery/Queries";
 import axios from "axios";
 import { getCookie } from "@/utils/cookie";
+import { AddPostFormSchema } from "@/utils/validationFormSxhema";
+import { FormValues } from "@/Types/types";
+import TextArea from "@/components/modules/createPostpage/TextArea";
+import SelectOption from "@/components/modules/createPostpage/SelectOption";
+import TextInput from "@/components/modules/createPostpage/TextInput";
+import { NextPage } from "next";
 
-type FormValues = {
-  title: string;
-  amount: string;
-  city: string;
-  category: string;
-  images: FileList | null;
-  content: string;
-};
-
-export const AddPostFormSchema = yup.object().shape({
-  title: yup.string().required("عنوان الزامی است"),
-  amount: yup
-    .string()
-    .matches(/^\d+$/, "قیمت باید عددی باشد")
-    .required("قیمت الزامی است"),
-  city: yup.string().required("شهر الزامی است"),
-  category: yup.string().required("دسته بندی الزامی است"),
-  images: yup.mixed().required("آپلود عکس الزامی است"),
-  content: yup.string().required("افزودن توضیحات الزامی است"),
-});
-
-const TextareaField = styled(TextareaAutosize)(
-  ({ theme }) => `
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 100px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 8px;
-  border-radius:8px 8px 8px 8px;
-  color:black;
-  background: white;
-  border: 1px solid grea;
-  &:focus {
-    outline: 0;
-    border-color: "blue";
-  }
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
-
-export default function Dashboard() {
+const Dashboard: NextPage = () => {
   const {
     handleSubmit,
     control,
@@ -81,7 +29,7 @@ export default function Dashboard() {
     queryFn: getCategories,
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
     const formData = new FormData();
     formData.append("title", data.title);
@@ -93,7 +41,7 @@ export default function Dashboard() {
       formData.append("images", data.images[0]);
     }
     const token = getCookie("DivarAccessToken");
-    axios
+    await axios
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}/post/create`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -107,202 +55,26 @@ export default function Dashboard() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Typography
-            component="div"
-            fontWeight="medium"
-            sx={{
-              marginBottom: "10px",
-              marginTop: "5px",
-              textAlign: "right",
-              fontSize: "18px",
-            }}
-          >
-            عنوان
-          </Typography>
-          <Controller
-            name="title"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                size="small"
-                {...field}
-                id="outlined-title"
-                label="عنوان"
-                variant="outlined"
-                fullWidth
-                sx={{
-                  width: "100%",
-                  "& .MuiInputBase-input": {
-                    padding: "8px",
-                  },
-                  "& .MuiFormLabel-root": {
-                    top: "-2px",
-                    transformOrigin: "right",
-                    left: "unset",
-                    right: "1.75rem",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    textAlign: "right",
-                    color: "#D1D5DB",
-                  },
-                }}
-              />
-            )}
-          />
-          {errors.title && (
-            <p style={{ color: "red", textAlign: "right", fontSize: "12px" }}>
-              {errors.title.message}
-            </p>
-          )}
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography
-            component="div"
-            fontWeight="medium"
-            sx={{
-              marginBottom: "10px",
-              marginTop: "5px",
-              textAlign: "right",
-              fontSize: "18px",
-            }}
-          >
-            قیمت
-          </Typography>
-          <Controller
-            name="amount"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                size="small"
-                {...field}
-                id="outlined-amount"
-                label="قیمت"
-                variant="outlined"
-                fullWidth
-                sx={{
-                  width: "100%",
-                  "& .MuiInputBase-input": {
-                    padding: "8px",
-                  },
-                  "& .MuiFormLabel-root": {
-                    top: "-2px",
-                    transformOrigin: "right",
-                    left: "unset",
-                    right: "1.75rem",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    textAlign: "right",
-                    color: "#D1D5DB",
-                  },
-                }}
-              />
-            )}
-          />
-          {errors.amount && (
-            <p style={{ color: "red", textAlign: "right", fontSize: "12px" }}>
-              {errors.amount.message}
-            </p>
-          )}
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography
-            component="div"
-            fontWeight="medium"
-            sx={{
-              marginBottom: "10px",
-              marginTop: "5px",
-              textAlign: "right",
-              fontSize: "18px",
-            }}
-          >
-            شهر
-          </Typography>
-          <Controller
-            name="city"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                size="small"
-                {...field}
-                id="outlined-city"
-                label="شهر"
-                variant="outlined"
-                fullWidth
-                sx={{
-                  width: "100%",
-                  "& .MuiInputBase-input": {
-                    padding: "8px",
-                  },
-                  "& .MuiFormLabel-root": {
-                    top: "-2px",
-                    transformOrigin: "right",
-                    left: "unset",
-                    right: "1.75rem",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    textAlign: "right",
-                    color: "#D1D5DB",
-                  },
-                }}
-              />
-            )}
-          />
-          {errors.city && (
-            <p style={{ color: "red", textAlign: "right", fontSize: "12px" }}>
-              {errors.city.message}
-            </p>
-          )}
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography
-            component="div"
-            fontWeight="medium"
-            sx={{
-              marginBottom: "10px",
-              marginTop: "5px",
-              textAlign: "right",
-              fontSize: "18px",
-            }}
-          >
-            دسته بندی
-          </Typography>
-          <Controller
-            name="category"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <FormControl
-                size="small"
-                fullWidth
-                variant="outlined"
-                sx={{ width: "100%" }}
-              >
-                <InputLabel id="category-label">دسته بندی</InputLabel>
-                <Select
-                  labelId="category-label"
-                  id="category"
-                  {...field}
-                  label="دسته بندی"
-                >
-                  {data?.data?.map((category: any) => (
-                    <MenuItem key={category._id} value={category.name}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.category && (
-                  <Typography variant="body2" color="error">
-                    {errors.category.message}
-                  </Typography>
-                )}
-              </FormControl>
-            )}
-          />
-        </Grid>
+        <TextInput
+          name="title"
+          label="عنوان"
+          control={control}
+          errors={errors}
+        />
+        <TextInput
+          name="amount"
+          label="قیمت"
+          control={control}
+          errors={errors}
+        />
+        <TextInput name="city" label="شهر" control={control} errors={errors} />
+        <SelectOption
+          name="category"
+          label="دسته بندی"
+          control={control}
+          data={data}
+          errors={errors}
+        />
         <Grid item xs={12}>
           <Typography
             component="div"
@@ -328,37 +100,8 @@ export default function Dashboard() {
             </p>
           )}
         </Grid>
-        <Grid item xs={12}>
-          <Typography
-            component="div"
-            fontWeight="medium"
-            sx={{
-              marginBottom: "10px",
-              marginTop: "5px",
-              textAlign: "right",
-              fontSize: "18px",
-            }}
-          >
-            توضیحات
-          </Typography>
-          <Controller
-            name="content"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextareaField
-                {...field}
-                aria-label="توضیحات"
-                placeholder="توضیحات را وارد کنید"
-              />
-            )}
-          />
-          {errors.content && (
-            <Typography variant="body2" color="error">
-              {errors.content.message}
-            </Typography>
-          )}
-        </Grid>
+        <TextArea control={control} errors={errors} />
+
         <Grid item xs={12}>
           <Button type="submit" variant="contained" color="primary">
             افزودن آگهی
@@ -367,4 +110,6 @@ export default function Dashboard() {
       </Grid>
     </form>
   );
-}
+};
+
+export default Dashboard;

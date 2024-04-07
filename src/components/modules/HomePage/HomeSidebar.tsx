@@ -14,10 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { ReturnSvg } from "@/utils/ReturnCategorySvg";
 import BorderAllIcon from "@mui/icons-material/BorderAll";
-
-interface HomeSidebarProps {
-  categories: any;
-}
+import { HomeSidebarProps } from "@/Types/Contracts";
 
 const HomeSidebar: React.FC<HomeSidebarProps> = ({ categories }) => {
   return (
@@ -52,7 +49,7 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({ categories }) => {
             }}
           >
             <ListItemButton
-              href="/"
+              href="/category"
               LinkComponent={Link}
               sx={{
                 textAlign: "right",
@@ -78,7 +75,7 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({ categories }) => {
               }}
             >
               <ListItemButton
-                href={`/?category=${item.icon}`}
+                href={`/category?category=${item._id}`}
                 LinkComponent={Link}
                 sx={{
                   textAlign: "right",

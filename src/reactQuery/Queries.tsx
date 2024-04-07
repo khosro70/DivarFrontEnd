@@ -20,3 +20,7 @@ export const getPosts = async () => {
   return res || false;
 };
 
+export const allPosts = async () => {
+  const res = await callApi().get("/");
+  return res || false;
+};

@@ -5,12 +5,15 @@ import { NextPage } from "next";
 
 const Home: NextPage = async () => {
   async function getData() {
-    const postsRes = await fetch("http://localhost:3400", {
+    const postsRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
       cache: "no-cache",
     });
-    const categoriesRes = await fetch("http://localhost:3400/category", {
-      cache: "force-cache",
-    });
+    const categoriesRes = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/category`,
+      {
+        cache: "force-cache",
+      }
+    );
     if (postsRes.status !== 200) {
       throw new Error("Failed to fetch data");
     }
@@ -19,7 +22,6 @@ const Home: NextPage = async () => {
     return { postsData, categoris };
   }
   const data = await getData();
-  // console.log(data.posts[0]);
   return (
     <Grid container display="flex" spacing={2} marginTop={3}>
       <HomeSidebar categories={data.categoris} />

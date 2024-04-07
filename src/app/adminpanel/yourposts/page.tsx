@@ -6,7 +6,6 @@ import { eTpWithComma } from "@/helpers/etp";
 import { getPosts } from "@/reactQuery/Queries";
 import { signInErrorTost } from "@/utils/tostErrors";
 import { Grid, Typography } from "@mui/material";
-
 import { useQuery } from "@tanstack/react-query";
 import { NextPage } from "next";
 import Image from "next/image";

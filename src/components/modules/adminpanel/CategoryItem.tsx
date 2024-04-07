@@ -3,7 +3,7 @@ import { ReturnSvg } from "@/utils/ReturnCategorySvg";
 import { Box, Button, Grid, SvgIcon, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { CategoryItemPropsInterface } from "../Contracts";
+import { CategoryItemPropsInterface } from "../../../Types/Contracts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCategory } from "@/reactQuery/Mutations";
 import { signInErrorTost, successTost } from "@/utils/tostErrors";
