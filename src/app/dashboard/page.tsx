@@ -35,7 +35,11 @@ const YourPosts: NextPage = () => {
           container
           display="flex"
           justifyContent="space-between"
-          sx={{ cursor: "pointer",borderBottom:"1px solid #9CA3AF", marginBottom:"9px" }}
+          sx={{
+            cursor: "pointer",
+            borderBottom: "1px solid #9CA3AF",
+            marginBottom: "9px",
+          }}
         >
           <Grid
             item
@@ -51,8 +55,7 @@ const YourPosts: NextPage = () => {
           >
             <Grid item sm={12} md={6}>
               <Image
-                // src={`http://localhost:3400/upload\\1711718373158.jpg`}
-                src="/images/postimagedivar.jpg"
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}/${post.images[0]}`}
                 width={500}
                 height={500}
                 alt="Picture of the author"

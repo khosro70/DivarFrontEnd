@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: false,
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
   },
   images: {
     remotePatterns: [
@@ -10,11 +13,9 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "3400",
-        // pathname: "",
       },
     ],
   },
 };
 
 export default nextConfig;
-// http://localhost:3400/

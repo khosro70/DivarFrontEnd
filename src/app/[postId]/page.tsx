@@ -80,17 +80,10 @@ const PostDetails: NextPage<paramsInterface> = async (params) => {
       <Grid item xs={12} md={6}>
         <Image
           src="/images/postimagedivar.jpg"
-          // src={`${process.env.NEXT_PUBLIC_BASE_URL}/${postData.images[0]}`}
           alt="تصویر محصول"
           width={500}
           height={500}
         />
-        {/* <img
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/${postData.images[0]}`}
-          alt="Girl in a jacket"
-          width="500"
-          height="600"
-        /> */}
       </Grid>
     </Grid>
   );
