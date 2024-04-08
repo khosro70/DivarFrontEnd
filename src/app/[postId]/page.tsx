@@ -13,7 +13,7 @@ const PostDetails: NextPage<paramsInterface> = async (params) => {
   const postId = params.params.postId;
   async function getData() {
     const postRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
-      cache: "no-cache",
+      cache: "no-store"
     });
     if (postRes.status !== 200) {
       throw new Error("Failed to fetch data");

@@ -6,7 +6,7 @@ import { NextPage } from "next";
 const Home: NextPage = async () => {
   async function getData() {
     const postsRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
-      cache: "no-cache",
+      cache: "no-store"
     });
     const categoriesRes = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/category`,
